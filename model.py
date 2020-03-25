@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import os
+from sklearn.metrics import f1_score
 
 
 class AttentionRNN(object):
@@ -133,7 +134,7 @@ class AttentionRNN(object):
         return sess.run(self.accuracy, feed_dict=feed_dict)
 
     def train(self, sess, epoch, config, generator):
-        iterations = int(len(generator) / config.batch_size)
+        iterations = int(len(generator) / config.batch_size) 
 
         if config.lr_schedule == 'standard':
             learning_rate = self.lr_schedule(config, epoch)
@@ -177,12 +178,15 @@ class AttentionRNN(object):
             self.rnn_keep_prob: 1.,
             self.att_keep_prob: 1.
         }
+        y_pred = self.predict(sess, X)
+        y_true = np.argmax(y, axis=1)
+        val_f1 = f1_score(y_true, y_pred, average='macro')
         val_cost, val_acc = sess.run([self.cost, self.accuracy], feed_dict=feed_dict)
-        print("epoch:{}   val_cost:{:.4f}   val_acc:{:.4f}".format(
-            epoch, val_cost, val_acc
+        print("epoch:{}   val_cost:{:.4f}   val_acc:{:.4f}   val_f1:{:.4f}".format(
+            epoch, val_cost, val_acc, val_f1
         ))
         print()
-        return [val_cost, val_acc]
+        return [val_cost, val_acc, val_f1]
 
     def save(self, sess, path, name):
         savepath = os.path.join(path, name + '.ckpt')

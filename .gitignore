@@ -1,0 +1,9 @@
+/data
+/.ipynb_checkpoints
+/.idea
+/__pycache__
+/ipynb/.ipynb_checkpoints
+/hparams/__pycache__
+/ckpt
+/result
+

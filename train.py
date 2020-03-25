@@ -16,7 +16,7 @@ def save(config, results):
 
 
 def train(config, model, tokenizer):
-    columns = ['epoch', 'trn_cost', 'trn_acc', 'val_cost', 'val_acc']
+    columns = ['epoch', 'trn_cost', 'trn_acc', 'val_cost', 'val_acc', 'val_f1']
     results = {key: [] for key in columns}
     train_generator = BatchGenerator('train', config, tokenizer)
     dev_generator = BatchGenerator('dev', config, tokenizer)
@@ -32,7 +32,7 @@ def train(config, model, tokenizer):
             for key, value in zip(results.keys(), epoch_results):
                 results[key].append(value)
 
-            model_name = str(epoch) + '-' + str(epoch_val_results[1])
+            model_name = str(epoch) + '-acc' + str(epoch_val_results[1]) + '-f1' + str(epoch_val_results[2])
             model.save(sess, config.model_save_path, model_name)
     return results
 
