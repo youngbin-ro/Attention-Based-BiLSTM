@@ -84,15 +84,6 @@ This is Baseline model for multi-senti classification task .
 <br/>
 
 
-
-## Result
-
-To be updated  
-
-<br/>
-
-
-
 ## Reference
 
 [Attention-Based Bidirectional Long Short-Term Memory Networks for Relation Classification](https://www.aclweb.org/anthology/P16-2034)
